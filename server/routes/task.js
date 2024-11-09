@@ -2,26 +2,26 @@ var express = require('express');
 var router = express.Router();
 let mongoose = require('mongoose');
 // telling my router that I have this model
-let Book = require('../model/book');
-const book = require('../model/book');
-let bookController = require('../controllers/book.js')
-/* Get route for the book list - Read Operation */
+let Task = require('../model/task');
+const book = require('../model/task');
+let bookController = require('../controllers/task.js')
+/* Get route for the task list - Read Operation */
 /*
 GET,
 Post,
 Put --> Edit/Update
 */
-/* Read Operation --> Get route for displaying the books list */
+/* Read Operation --> Get route for displaying the task list */
 router.get('/',async(req,res,next)=>{
 try{
-    const BookList = await Book.find();
-    res.render('Book/list',{
-        title:'Books',
-        BookList:BookList
+    const TaskList = await Task.find();
+    res.render('Task/list',{
+        title:'Tasks',
+        TaskList:TaskList
     })}
     catch(err){
         console.error(err);
-        res.render('Book/list',{
+        res.render('Task/list',{
             error:'Error on the server'
         })
     }
@@ -29,14 +29,14 @@ try{
 /* Create Operation --> Get route for displaying me the Add Page */
 router.get('/add',async(req,res,next)=>{
     try{
-        res.render('Book/add',{
-            title: 'Add Book'
+        res.render('Task/add',{
+            title: 'Add Task'
         })
     }
     catch(err)
     {
         console.error(err);
-        res.render('Book/list',{
+        res.render('Task/list',{
             error:'Error on the server'
         })
     }
@@ -44,21 +44,21 @@ router.get('/add',async(req,res,next)=>{
 /* Create Operation --> Post route for processing the Add Page */
 router.post('/add',async(req,res,next)=>{
     try{
-        let newBook = Book({
-            "Name":req.body.Name,
-            "Author":req.body.Author,
+        let newBook = Task({
+            "Title":req.body.Name,
+            "Description":req.body.Author,
             "Published":req.body.Published,
             "Description":req.body.Description,
             "Price":req.body.Price
         });
-        Book.create(newBook).then(()=>{
-            res.redirect('/bookslist');
+        Task.create(newBook).then(()=>{
+            res.redirect('/taskslist');
         })
     }
     catch(err)
     {
         console.error(err);
-        res.render('Book/list',{
+        res.render('Task/list',{
             error:'Error on the server'
         })
     }
@@ -67,11 +67,11 @@ router.post('/add',async(req,res,next)=>{
 router.get('/edit/:id',async(req,res,next)=>{
     try{
         const id = req.params.id;
-        const bookToEdit= await Book.findById(id);
-        res.render('Book/edit',
+        const bookToEdit= await Task.findById(id);
+        res.render('Task/edit',
             {
-                title:'Edit Book',
-                Book:bookToEdit
+                title:'Edit Task',
+                Task:bookToEdit
             }
         )
     }
@@ -85,7 +85,7 @@ router.get('/edit/:id',async(req,res,next)=>{
 router.post('/edit/:id',async(req,res,next)=>{
     try{
         let id=req.params.id;
-        let updatedBook = Book({
+        let updatedBook = Task({
             "_id":id,
             "Name":req.body.Name,
             "Author":req.body.Author,
@@ -93,13 +93,13 @@ router.post('/edit/:id',async(req,res,next)=>{
             "Description":req.body.Description,
             "Price":req.body.Price
         });
-        Book.findByIdAndUpdate(id,updatedBook).then(()=>{
-            res.redirect('/bookslist')
+        Task.findByIdAndUpdate(id,updatedBook).then(()=>{
+            res.redirect('/taskslist')
         })
     }
     catch(err){
         console.error(err);
-        res.render('Book/list',{
+        res.render('Task/list',{
             error:'Error on the server'
         })
     }
@@ -108,13 +108,13 @@ router.post('/edit/:id',async(req,res,next)=>{
 router.get('/delete/:id',async(req,res,next)=>{
     try{
         let id=req.params.id;
-        Book.deleteOne({_id:id}).then(()=>{
-            res.redirect('/bookslist')
+        Task.deleteOne({_id:id}).then(()=>{
+            res.redirect('/taskslist')
         })
     }
     catch(error){
         console.error(err);
-        res.render('Book/list',{
+        res.render('Task/list',{
             error:'Error on the server'
         })
     }
