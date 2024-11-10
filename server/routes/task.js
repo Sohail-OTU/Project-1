@@ -3,8 +3,8 @@ var router = express.Router();
 let mongoose = require('mongoose');
 // telling my router that I have this model
 let Task = require('../model/task');
-const book = require('../model/task');
-let bookController = require('../controllers/task.js')
+const task = require('../model/task');
+let taskController = require('../controllers/task.js')
 /* Get route for the task list - Read Operation */
 /*
 GET,
@@ -43,18 +43,32 @@ router.get('/add',async(req,res,next)=>{
 });
 /* Create Operation --> Post route for processing the Add Page */
 router.post('/add',async(req,res,next)=>{
+
+    const isValidDate = (date) => {
+        return !isNaN(Date.parse(date));
+    };
+
     try{
-        let newBook = Task({
-            "Title":req.body.Name,
-            "Description":req.body.Author,
-            "Published":req.body.Published,
+
+        if (!isValidDate(req.body.Date) || (req.body.DueDate && !isValidDate(req.body.DueDate))) {
+            return res.render('Task/add', {
+                title: 'Add Task',
+                error: 'Invalid date format. Please enter a valid date.',
+            });
+        }
+
+        let newTask = Task({
+            "Title":req.body.Title,
             "Description":req.body.Description,
-            "Price":req.body.Price
+            "Date":req.body.Date,
+            "DueDate":req.body.DueDate,
+            "Status":req.body.Status
         });
-        Task.create(newBook).then(()=>{
+        Task.create(newTask).then(()=>{
             res.redirect('/taskslist');
         })
     }
+
     catch(err)
     {
         console.error(err);
@@ -67,11 +81,11 @@ router.post('/add',async(req,res,next)=>{
 router.get('/edit/:id',async(req,res,next)=>{
     try{
         const id = req.params.id;
-        const bookToEdit= await Task.findById(id);
+        const taskToEdit= await Task.findById(id);
         res.render('Task/edit',
             {
                 title:'Edit Task',
-                Task:bookToEdit
+                Task:taskToEdit
             }
         )
     }
@@ -83,17 +97,30 @@ router.get('/edit/:id',async(req,res,next)=>{
 });
 /* Update Operation --> Post route for processing the Edit Page */ 
 router.post('/edit/:id',async(req,res,next)=>{
+
+    const isValidDate = (date) => {
+        return !isNaN(Date.parse(date));
+    };
+
     try{
+
+        if (!isValidDate(req.body.Date) || (req.body.DueDate && !isValidDate(req.body.DueDate))) {
+            return res.render('Task/add', {
+                title: 'Add Task',
+                error: 'Invalid date format. Please enter a valid date.',
+            });
+        }
+
         let id=req.params.id;
-        let updatedBook = Task({
+        let updatedTask = Task({
             "_id":id,
-            "Name":req.body.Name,
-            "Author":req.body.Author,
-            "Published":req.body.Published,
+            "Title":req.body.Title,
             "Description":req.body.Description,
-            "Price":req.body.Price
+            "Date":req.body.Date,
+            "DueDate":req.body.DueDate,
+            "Status":req.body.Status
         });
-        Task.findByIdAndUpdate(id,updatedBook).then(()=>{
+        Task.findByIdAndUpdate(id,updatedTask).then(()=>{
             res.redirect('/taskslist')
         })
     }

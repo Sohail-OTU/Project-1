@@ -11,19 +11,19 @@
             </a>
             <table class="table table-bordered table-striped table-hover">
                 <tr class="d-flex">
-                    <th class="text-center col-2">Name</th>
-                    <th class="text-center col-2">Author</th>
-                    <th class="text-center col-1">Published</th>
+                    <th class="col-2">Task Name</th>
                     <th class="col-4">Description</th>
-                    <th class="text-center col-1">Price</th>
+                    <th class="col-1">Task Date</th>
+                    <th class="col-1">Task Deadline</th>
+                    <th class="col-2">Status</th>
                 </tr>
                 <% for(let count=0;count<TaskList.length;count++) { %>
                 <tr class="d-flex">
-                    <td class="text-center col-2"><%= TaskList[count].Name %></td>
-                    <td class="text-center col-2"><%= TaskList[count].Author %></td>
-                    <td class="text-center col-1"><%=TaskList[count].Published%></td>
-                    <td class="col-4"><%= TaskList[count].Description %> </td>
-                    <td class="text-center col-1"><%= TaskList[count].Price %></td>
+                    <td class="text-center col-2"><%= TaskList[count].Title %></td>
+                    <td class="text-center col-4"><%= TaskList[count].Description %></td>
+                    <td class="text-center col-1"><%=TaskList[count].Date %></td>
+                    <td class="text-center col-1"><%= TaskList[count].DueDate %> </td>
+                    <td class="text-center col-2"><%= TaskList[count].Status %></td>
                     <td class="text-center col-1">
                         <a href="/taskslist/edit/<%= TaskList[count]._id%>"
                             class="btn btn-primary btn-sm">
