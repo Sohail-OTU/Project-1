@@ -13,17 +13,17 @@
                 <tr class="d-flex">
                     <th class="col-2">Task Name</th>
                     <th class="col-4">Description</th>
-                    <th class="col-1">Task Date</th>
-                    <th class="col-1">Task Deadline</th>
-                    <th class="col-2">Status</th>
+                    <th class="col-2">Task Date</th>
+                    <th class="col-2">Task Deadline</th>
+                    <th class="col-1">Status</th>
                 </tr>
                 <% for(let count=0;count<TaskList.length;count++) { %>
                 <tr class="d-flex">
                     <td class="text-center col-2"><%= TaskList[count].Title %></td>
                     <td class="text-center col-4"><%= TaskList[count].Description %></td>
-                    <td class="text-center col-1"><%=TaskList[count].Date %></td>
-                    <td class="text-center col-1"><%= TaskList[count].DueDate %> </td>
-                    <td class="text-center col-2"><%= TaskList[count].Status %></td>
+                    <td class="text-center col-2"><%=TaskList[count].Date %></td>
+                    <td class="text-center col-2"><%= TaskList[count].DueDate %> </td>
+                    <td class="text-center col-1"><%= TaskList[count].Status %></td>
                     <td class="text-center col-1">
                         <a href="/taskslist/edit/<%= TaskList[count]._id%>"
                             class="btn btn-primary btn-sm">

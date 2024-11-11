@@ -11,38 +11,55 @@ GET,
 Post,
 Put --> Edit/Update
 */
-/* Read Operation --> Get route for displaying the task list */
-router.get('/',async(req,res,next)=>{
+
+//Buttons for active/completed lists
+router.get('/', (req, res, next) => {
+    try {
+    res.render('../views/task_choice', {
+        title: 'Task Type'
+    })}
+    catch(err)
+    {
+        console.error(err);
+        res.render('../views/task_choice',{
+            error:'Error on the server'
+        })
+    }
+
+});
+
+/* Read Operation --> Get route for displaying the active task list */
+router.get('/active',async(req,res,next)=>{
 try{
-    const TaskList = await Task.find();
-    res.render('Task/list',{
-        title:'Tasks',
+    const TaskList = await Task.find({Status: 'Active'});
+    res.render('Active_Task/list',{
+        title:'Active Tasks',
         TaskList:TaskList
     })}
     catch(err){
         console.error(err);
-        res.render('Task/list',{
+        res.render('Active_Task/list',{
             error:'Error on the server'
         })
     }
     });
-/* Create Operation --> Get route for displaying me the Add Page */
-router.get('/add',async(req,res,next)=>{
+/* Create Operation --> Get route for displaying me the task add Page */
+router.get('/active/add',async(req,res,next)=>{
     try{
-        res.render('Task/add',{
+        res.render('../views/Active_Task/add',{
             title: 'Add Task'
         })
     }
     catch(err)
     {
         console.error(err);
-        res.render('Task/list',{
+        res.render('Active_Task/list',{
             error:'Error on the server'
         })
     }
 });
-/* Create Operation --> Post route for processing the Add Page */
-router.post('/add',async(req,res,next)=>{
+/* Create Operation --> Post route for processing the task add Page */
+router.post('/active/add',async(req,res,next)=>{
 
     const isValidDate = (date) => {
         return !isNaN(Date.parse(date));
@@ -51,8 +68,8 @@ router.post('/add',async(req,res,next)=>{
     try{
 
         if (!isValidDate(req.body.Date) || (req.body.DueDate && !isValidDate(req.body.DueDate))) {
-            return res.render('Task/add', {
-                title: 'Add Task',
+            return res.render('../views/Active_Task/add', {
+                title: 'Add Active Task',
                 error: 'Invalid date format. Please enter a valid date.',
             });
         }
@@ -62,29 +79,29 @@ router.post('/add',async(req,res,next)=>{
             "Description":req.body.Description,
             "Date":req.body.Date,
             "DueDate":req.body.DueDate,
-            "Status":req.body.Status
+            "Status":req.body.Status || 'Active'
         });
         Task.create(newTask).then(()=>{
-            res.redirect('/taskslist');
+            res.redirect('/active');
         })
     }
 
     catch(err)
     {
         console.error(err);
-        res.render('Task/list',{
+        res.render('Active_Task/list',{
             error:'Error on the server'
         })
     }
 });
 /* Update Operation --> Get route for displaying me the Edit Page */
-router.get('/edit/:id',async(req,res,next)=>{
+router.get('/active/edit/:id',async(req,res,next)=>{
     try{
         const id = req.params.id;
         const taskToEdit= await Task.findById(id);
-        res.render('Task/edit',
+        res.render('../views/Active_Task/edit',
             {
-                title:'Edit Task',
+                title:'Edit an Active Task',
                 Task:taskToEdit
             }
         )
@@ -96,7 +113,7 @@ router.get('/edit/:id',async(req,res,next)=>{
     }
 });
 /* Update Operation --> Post route for processing the Edit Page */ 
-router.post('/edit/:id',async(req,res,next)=>{
+router.post('/active/edit/:id',async(req,res,next)=>{
 
     const isValidDate = (date) => {
         return !isNaN(Date.parse(date));
@@ -105,8 +122,8 @@ router.post('/edit/:id',async(req,res,next)=>{
     try{
 
         if (!isValidDate(req.body.Date) || (req.body.DueDate && !isValidDate(req.body.DueDate))) {
-            return res.render('Task/add', {
-                title: 'Add Task',
+            return res.render('../views/Active_Task/add', {
+                title: 'Add Active Task',
                 error: 'Invalid date format. Please enter a valid date.',
             });
         }
@@ -121,29 +138,123 @@ router.post('/edit/:id',async(req,res,next)=>{
             "Status":req.body.Status
         });
         Task.findByIdAndUpdate(id,updatedTask).then(()=>{
-            res.redirect('/taskslist')
+            res.redirect('/active')
         })
     }
     catch(err){
         console.error(err);
-        res.render('Task/list',{
+        res.render('Active_Task/list',{
             error:'Error on the server'
         })
     }
 });
 /* Delete Operation --> Get route to perform Delete Operation */
-router.get('/delete/:id',async(req,res,next)=>{
+router.get('/active/delete/:id',async(req,res,next)=>{
     try{
         let id=req.params.id;
         Task.deleteOne({_id:id}).then(()=>{
-            res.redirect('/taskslist')
+            res.redirect('/active')
         })
     }
     catch(error){
         console.error(err);
-        res.render('Task/list',{
+        res.render('Active_Task/list',{
             error:'Error on the server'
         })
     }
 });
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/*Completed tasks routes*/
+
+// List the Completed tasks:
+
+router.get('/completed',async(req,res,next)=>{
+    try{
+        const TaskList = await Task.find({Status: 'Completed'});
+        res.render('Completed_Task/list',{
+            title:'Completed Tasks',
+            TaskList:TaskList
+        })}
+        catch(err){
+            console.error(err);
+            res.render('Completed_Task/list',{
+                error:'Error on the server'
+            })
+        }
+});
+
+// CREATE OPERATION - Get routes 
+
+router.get('/completed/add',async(req,res,next)=>{
+    try{
+        res.render('../views/Completed_Task/add',{
+            title: 'Add Task'
+        })
+    }
+    catch(err)
+    {
+        console.error(err);
+        res.render('Completed_Task/list',{
+            error:'Error on the server'
+        })
+    }
+});
+
+// CREATE OPERATION - Post routes
+
+router.post('/completed/add',async(req,res,next)=>{
+
+    const isValidDate = (date) => {
+        return !isNaN(Date.parse(date));
+    };
+
+    try{
+
+        if (!isValidDate(req.body.Date) || (req.body.DueDate && !isValidDate(req.body.DueDate))) {
+            return res.render('../views/Completed_Task/add', {
+                title: 'Add Task',
+                error: 'Invalid date format. Please enter a valid date.',
+            });
+        }
+
+        let newTask = Task({
+            "Title":req.body.Title,
+            "Description":req.body.Description,
+            "Date":req.body.Date,
+            "DueDate":req.body.DueDate,
+            "Status":req.body.Status || 'Completed'
+        });
+        Task.create(newTask).then(()=>{
+            res.redirect('/completed');
+        })
+    }
+
+    catch(err)
+    {
+        console.error(err);
+        res.render('Completed_Task/list',{
+            error:'Error on the server'
+        })
+    }
+});
+
+// Delete Completed Tasks
+
+router.get('/completed/delete/:id',async(req,res,next)=>{
+    try{
+        let id=req.params.id;
+        Task.deleteOne({_id:id}).then(()=>{
+            res.redirect('/completed')
+        })
+    }
+    catch(error){
+        console.error(err);
+        res.render('Completed_Task/list',{
+            error:'Error on the server'
+        })
+    }
+});
+
+
 module.exports = router;
