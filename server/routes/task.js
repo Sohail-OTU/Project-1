@@ -170,4 +170,45 @@ router.get('/active/delete/:id',async(req,res,next)=>{
     }
 });
 
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+/* completed task routes */
+
+// list the task 
+router.get('/completed',async(req,res,next)=>{
+    try{
+        const TaskList = await Task.find({Status: 'Completed'})
+        res.render('Completed_Task/list',{
+            title:'Completed Tasks',
+            TaskList:TaskList
+        })}
+    catch(err){
+        console.error(err);
+        res.render('Completed_Task/list',{
+            error:'Error on the server'
+        })
+    }
+});
+
+// Create operation - get routes
+
+routes.get('/completed/add',async(req,res,next)=>{
+    try{
+        res.render('../views/Completed_Task/add',{
+            title:'Add Task'
+
+        })
+    }
+    catch(err)
+    {
+        console.error(err);
+        res.render('../views/Completed_Task/list',{
+            error:'Error on the server'
+        })
+    }
+});
+            
+
+
+
 module.exports = router;
