@@ -242,6 +242,20 @@ router.post('/completed/add',async(req,res,next)=>{
         })
     }
 })
+//Delete Completed task
 
-
+router.get('/completed/delete/:id',async(req,res,next)=>{
+    try{
+        let id =req.param.id;
+        Task.deleteOne({_id:id}).then(()=>{
+            res.redirect('/tasks/completed')
+        })
+    }
+    catch(error){
+        console.error(err);
+        res.render('Completed_Task/list',{
+            error:'Error on the server'
+        })
+    }
+});
 module.exports = router;
