@@ -6,7 +6,7 @@
         <div class="offset-md-1 col-md-10">
             <h1><%= title %></h1>
             <br>
-            <a href="/taskslist/add" class="btn btn-primary" role="button">
+            <a href="/tasks/completed/add" class="btn btn-primary" role="button">
                 <i class="fas fa-plus-circle"></i> Add Task
             </a>
             <table class="table table-bordered table-striped table-hover">
@@ -25,13 +25,7 @@
                     <td class="text-center col-2"><%= TaskList[count].DueDate %> </td>
                     <td class="text-center col-1"><%= TaskList[count].Status %></td>
                     <td class="text-center col-1">
-                        <a href="/taskslist/edit/<%= TaskList[count]._id%>"
-                            class="btn btn-primary btn-sm">
-                        <i class="fas fa-pencil-alt"></i>Edit
-                    </a>
-                    </td>
-                    <td class="text-center col-1">
-                        <a href="/taskslist/delete/<%= TaskList[count]._id%>"
+                        <a href="/tasks/completed/delete/<%= TaskList[count]._id%>"
                             class="btn btn-danger btn-sm">
                         <i class="fas fa-trash-alt"></i>Delete
                     </a>

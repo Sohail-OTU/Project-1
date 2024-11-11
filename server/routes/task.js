@@ -82,7 +82,7 @@ router.post('/active/add',async(req,res,next)=>{
             "Status":req.body.Status || 'Active'
         });
         Task.create(newTask).then(()=>{
-            res.redirect('/active');
+            res.redirect('/tasks');
         })
     }
 
@@ -99,10 +99,16 @@ router.get('/active/edit/:id',async(req,res,next)=>{
     try{
         const id = req.params.id;
         const taskToEdit= await Task.findById(id);
+        const formattedDate = taskToEdit.Date ? taskToEdit.Date.toISOString().split('T')[0] : '';
+        const formattedDueDate = taskToEdit.DueDate ? taskToEdit.DueDate.toISOString().split('T')[0] : '';
+        
+
         res.render('../views/Active_Task/edit',
             {
                 title:'Edit an Active Task',
-                Task:taskToEdit
+                Task:taskToEdit,
+                formattedDate,
+                formattedDueDate
             }
         )
     }
@@ -138,7 +144,7 @@ router.post('/active/edit/:id',async(req,res,next)=>{
             "Status":req.body.Status
         });
         Task.findByIdAndUpdate(id,updatedTask).then(()=>{
-            res.redirect('/active')
+            res.redirect('/tasks/active')
         })
     }
     catch(err){
@@ -151,9 +157,9 @@ router.post('/active/edit/:id',async(req,res,next)=>{
 /* Delete Operation --> Get route to perform Delete Operation */
 router.get('/active/delete/:id',async(req,res,next)=>{
     try{
-        let id=req.params.id;
+        let id =req.params.id;
         Task.deleteOne({_id:id}).then(()=>{
-            res.redirect('/active')
+            res.redirect('/tasks/active')
         })
     }
     catch(error){
@@ -163,98 +169,5 @@ router.get('/active/delete/:id',async(req,res,next)=>{
         })
     }
 });
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/*Completed tasks routes*/
-
-// List the Completed tasks:
-
-router.get('/completed',async(req,res,next)=>{
-    try{
-        const TaskList = await Task.find({Status: 'Completed'});
-        res.render('Completed_Task/list',{
-            title:'Completed Tasks',
-            TaskList:TaskList
-        })}
-        catch(err){
-            console.error(err);
-            res.render('Completed_Task/list',{
-                error:'Error on the server'
-            })
-        }
-});
-
-// CREATE OPERATION - Get routes 
-
-router.get('/completed/add',async(req,res,next)=>{
-    try{
-        res.render('../views/Completed_Task/add',{
-            title: 'Add Task'
-        })
-    }
-    catch(err)
-    {
-        console.error(err);
-        res.render('Completed_Task/list',{
-            error:'Error on the server'
-        })
-    }
-});
-
-// CREATE OPERATION - Post routes
-
-router.post('/completed/add',async(req,res,next)=>{
-
-    const isValidDate = (date) => {
-        return !isNaN(Date.parse(date));
-    };
-
-    try{
-
-        if (!isValidDate(req.body.Date) || (req.body.DueDate && !isValidDate(req.body.DueDate))) {
-            return res.render('../views/Completed_Task/add', {
-                title: 'Add Task',
-                error: 'Invalid date format. Please enter a valid date.',
-            });
-        }
-
-        let newTask = Task({
-            "Title":req.body.Title,
-            "Description":req.body.Description,
-            "Date":req.body.Date,
-            "DueDate":req.body.DueDate,
-            "Status":req.body.Status || 'Completed'
-        });
-        Task.create(newTask).then(()=>{
-            res.redirect('/completed');
-        })
-    }
-
-    catch(err)
-    {
-        console.error(err);
-        res.render('Completed_Task/list',{
-            error:'Error on the server'
-        })
-    }
-});
-
-// Delete Completed Tasks
-
-router.get('/completed/delete/:id',async(req,res,next)=>{
-    try{
-        let id=req.params.id;
-        Task.deleteOne({_id:id}).then(()=>{
-            res.redirect('/completed')
-        })
-    }
-    catch(error){
-        console.error(err);
-        res.render('Completed_Task/list',{
-            error:'Error on the server'
-        })
-    }
-});
-
 
 module.exports = router;
