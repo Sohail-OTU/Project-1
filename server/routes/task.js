@@ -208,7 +208,40 @@ routes.get('/completed/add',async(req,res,next)=>{
     }
 });
             
+// Create operation - Post routes
 
+router.post('/completed/add',async(req,res,next)=>{
+    const isValidDate = (date) => {
+        return !isNaN(Date.parse(date));
+    };
+    try{
+        if(!isValidDate(req.body.date)|| (req.body.DueDate && !isValidDate(req.body.DueDate))){
+            return res.render('../views/Completed_Task/add',{
+                title: 'Add Task',
+                error: 'Invalid date format. Please enter a valid date.',
+            })
+        }
+
+        let newTask = task({
+            "Title":req.body.Title,
+            "Description":req.body.Description,
+            "Date":req.body.Date,
+            "DueDate":req.body.DueDate,
+            "Status":req.body.Status || 'Completed'
+        });
+        Task.create(newTask).then(()=>{
+            res.redirect('/tasks/completed');
+
+        })
+    }
+    catch(err)
+    {
+        console.error(err);
+        res.render('Completed_Task/list',{
+            error:'Error on the server'
+        })
+    }
+})
 
 
 module.exports = router;
