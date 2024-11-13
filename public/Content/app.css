@@ -1,0 +1,31 @@
+/* Define custom color classes */
+.bg-mint-green {
+    background-color: #A3E3B5 !important;  /* Mint green */
+}
+
+.bg-aquamarine {
+    background-color: #7FFFD4 !important;  /* Aquamarine */
+}
+
+.bg-tiffany-blue {
+    background-color: #0ABAB5 !important;  /* Tiffany blue */
+}
+
+.bg-cool-gray {
+    background-color: #8C92AC !important;  /* Cool gray */
+}
+
+/* Example text color */
+.text-columbia-blue {
+    color: #C4D8E2 !important;  /* Columbia blue */
+}
+
+.logo_ {
+    width: 3vw;
+    height: 3vw;
+    object-fit: cover;
+}
+
+body {
+    overflow-x: hidden;
+}

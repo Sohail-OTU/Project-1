@@ -16,7 +16,7 @@ Put --> Edit/Update
 router.get('/', (req, res, next) => {
     try {
     res.render('../views/task_choice', {
-        title: 'Task Type'
+        title: 'Task'
     })}
     catch(err)
     {
@@ -82,7 +82,7 @@ router.post('/active/add',async(req,res,next)=>{
             "Status":req.body.Status || 'Active'
         });
         Task.create(newTask).then(()=>{
-            res.redirect('/tasks');
+            res.redirect('/tasks/active');
         })
     }
 
@@ -192,7 +192,7 @@ router.get('/completed',async(req,res,next)=>{
 
 // Create operation - get routes
 
-routes.get('/completed/add',async(req,res,next)=>{
+router.get('/completed/add',async(req,res,next)=>{
     try{
         res.render('../views/Completed_Task/add',{
             title:'Add Task'
@@ -215,7 +215,7 @@ router.post('/completed/add',async(req,res,next)=>{
         return !isNaN(Date.parse(date));
     };
     try{
-        if(!isValidDate(req.body.date)|| (req.body.DueDate && !isValidDate(req.body.DueDate))){
+        if(!isValidDate(req.body.Date)|| (req.body.DueDate && !isValidDate(req.body.DueDate))){
             return res.render('../views/Completed_Task/add',{
                 title: 'Add Task',
                 error: 'Invalid date format. Please enter a valid date.',
@@ -246,7 +246,7 @@ router.post('/completed/add',async(req,res,next)=>{
 
 router.get('/completed/delete/:id',async(req,res,next)=>{
     try{
-        let id =req.param.id;
+        let id =req.params.id;
         Task.deleteOne({_id:id}).then(()=>{
             res.redirect('/tasks/completed')
         })

@@ -1,7 +1,7 @@
 <!--NavBar-->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-light bg-mint-green">
     <div class="container-fluid">
-      <a class="navbar-brand" href="/">INFR3120 Project</a>
+      <a class="navbar-brand" href="/"><img class="logo_ rounded-circle" src="/Assets/images/Sortify Logo.jpg" alt="Logo"> Sortify</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -13,7 +13,7 @@
             <% } else {%>
               <a class="nav-link" href="/home">
             <% } %>  
-            <i class="fa-solid fa-house-chimney-user"></i> Home</a>
+            <i class="fa-solid fa-house"></i> Home</a>
           </li>
           <li class="nav-item">
             <% if(title=="About us") { %>
@@ -21,7 +21,7 @@
             <% } else {%>
               <a class="nav-link" href="/aboutus">  
             <% } %>       
-              <i class="fa-solid fa-circle-info"></i> AboutUs</a>
+              <i class="fa-solid fa-circle-question"></i> About Us</a>
           </li>
           <li class="nav-item">
             <% if(title=="Products") { %>
@@ -29,7 +29,7 @@
             <% } else {%>
               <a class="nav-link" href="/products">
             <% } %>    
-              <i class="fa-brands fa-elementor"></i> Products</a>
+              <i class="fa-solid fa-box-open"></i> Products</a>
           </li>
           <li class="nav-item">
             <% if(title=="Service") { %>
@@ -37,10 +37,13 @@
             <% } else {%> 
               <a class="nav-link" href="/service">
             <% } %>  
-                <i class="fa-solid fa-gears"></i> Service</a>
+                <i class="fa-solid fa-hand-holding-heart"></i> Services</a>
           </li>
           <li class="nav-item">
-            <% if(title=="Tasks") { %>
+            <% if(
+              title=="Task" || title=="Active Tasks" || title=="Completed Tasks" ||
+              title=="Add Task" || title=="Add Active Task" || title=="Edit an Active Task"
+            ) { %>
               <a class="nav-link active" href="/tasks">
             <% } else {%>
               <a class="nav-link" href="/tasks">
@@ -53,7 +56,7 @@
           <% } else {%>  
             <a class="nav-link" href="/contactus">
           <% } %> 
-          <i class="fa-solid fa-address-card"></i> ContactUs</a>
+          <i class="fa-solid fa-phone-volume"></i> ContactUs</a>
           </li>
         </ul>
       </div>
