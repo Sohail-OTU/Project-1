@@ -11,7 +11,8 @@ let taskModel = mongoose.Schema({
         type: String, enum:
             ['Active', 'Completed'],
         default: 'Active'
-    }
+    },
+    createdBy: {type: mongoose.Schema.Types.ObjectId, ref: 'User'}
 },
 {
     collection:"home_log"

@@ -3,6 +3,7 @@ let express = require('express');
 let path = require('path');
 let cookieParser = require('cookie-parser');
 let logger = require('morgan');
+require('dotenv').config();
 
 let app = express();
 let indexRouter = require('../routes/index');
@@ -15,15 +16,13 @@ app.set('views', path.join(__dirname, '../views'));
 app.set('view engine', 'ejs');
 // getting-started.js
 const mongoose = require('mongoose');
-let DB = require('./db');
-// point mongoose to the DB URI
-mongoose.connect(DB.URI);
-let mongoDB = mongoose.connection;
-mongoDB.on('error',console.error.bind(console,'Connection Error'));
-mongoDB.once('open',()=>{
-  console.log("Connected with the MongoDB")
-});
-mongoose.connect(DB.URI,{useNewURIParser:true,useUnifiedTopology:true})
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => console.log(`Connected to MondoDB: ${mongoose.connection.name}`))
+  .catch((err) => {
+    console.error('Failed to connect to MongoDB:', err.message);
+    process.exit(1); // Exit process if connection fails
+  });
 /* main().catch(err => console.log(err));
 
 async function main() {
@@ -40,11 +39,16 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../../public')));
 app.use(express.static(path.join(__dirname, '../../node_modules')));
 
+const jwt = require('jsonwebtoken');
+
+//Put token code here:
+
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/tasks',taskRouter);
-// /project --> projectrouter
-// /contactus --> contactus
+//Put the app.use for authentication here:
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
