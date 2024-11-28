@@ -1,4 +1,5 @@
-/* Define custom color classes */
+/* CUSTOM COLOUR CLASSES!!!!!!!!*/
+
 .bg-mint-green {
     background-color: #A3E3B5 !important;  /* Mint green */
 }
@@ -15,7 +16,6 @@
     background-color: #8C92AC !important;  /* Cool gray */
 }
 
-/* Example text color */
 .text-columbia-blue {
     color: #C4D8E2 !important;  /* Columbia blue */
 }
@@ -29,3 +29,6 @@
 body {
     overflow-x: hidden;
 }
+
+/* TASK CHOICE BUTTON CSSS!!!!!!!!!! */
+
