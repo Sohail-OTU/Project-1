@@ -12,3 +12,21 @@
                 <%= errorMessage %>
             </div>
         <% } %>
+
+        <form method="POST" action="/register">
+            <div class="mb-3">
+                <label for="email" class="form-label">Email:</label>
+                <input type="email" name="email" id="email" class="form-control" placeholder="Enter Your Email" required />
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password:</label>
+                <input type="password" name="password" id="password" class="form-control" placeholder="Enter Your Password" required />
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Register</button>
+        </form>
+        <div class="text-center mt-3">
+            <a href="/login">Already have an account? Login here.</a>
+        </div>
+    </div>
+</main>
+<%- include Partials/footer.ejs%>
