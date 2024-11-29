@@ -9,6 +9,8 @@ let app = express();
 let indexRouter = require('../routes/index');
 let usersRouter = require('../routes/users');
 let taskRouter = require('../routes/task');
+let authRouter = require('../routes/auth')
+let checkAuthentication = require('../../middleware/auth')
 
 
 // view engine setup
