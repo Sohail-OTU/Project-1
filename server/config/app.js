@@ -43,6 +43,28 @@ app.use(express.static(path.join(__dirname, '../../node_modules')));
 
 const jwt = require('jsonwebtoken');
 //Put token code here:
+app.use((req, res, next) => {
+  const token = req.cookies.token;
+
+
+  if (token) {
+    try {
+      const decoded = jwt.decode(token); // Decode the token without verifying
+      res.locals.user = decoded; // Pass decoded user data to views
+      res.locals.isAuthenticated = true; // Mark user as authenticated
+    } catch (err) {
+      console.error('Error decoding token:', err.message);
+      res.locals.user = null;
+      res.locals.isAuthenticated = false;
+    }
+  } else {
+    res.locals.user = null; // No user logged in
+    res.locals.isAuthenticated = false;
+  }
+
+
+  next();
+})
 
 
 app.use('/', indexRouter);
