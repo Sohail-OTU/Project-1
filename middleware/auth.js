@@ -1,4 +1,4 @@
-const jwt = require('jsonbtoken');
+const jwt = require('jsonwebtoken');
 console.log(jwt);
 
 function authenticateToken(req,res,next){

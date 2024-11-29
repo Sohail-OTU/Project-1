@@ -14,7 +14,7 @@ router.get('/login', (req, res, next) => {
 //POST route for processing the Login Page
 router.post('/login', async(req,res,next)=>{
     try {
-        const {email, password, username} = req.body;
+        const {email, password} = req.body;
 
         console.log('Login attempt:', email);
 
@@ -41,7 +41,7 @@ router.post('/login', async(req,res,next)=>{
         const token = jwt.sign({id: user._id}, process.env.JWT_SECRET, {expiresIn: '1h'});
         res.cookie('token', token, {httpOnly: true});
         console.log('User logged in successfully:', email);
-        res.redirect('../views/task_choice')
+        res.redirect('/tasks')
     }
     catch(err) {
         console.error(err);
@@ -61,30 +61,47 @@ router.get('/register', (req, res, next) => {
 
 
 //POST route for processing Register Page
-router.post('/register', async(req, res, next)=>{
-    try {
-        const {email, password} = req.body;
-        console.log('Login attempt:', email);
+router.post('/register', async (req, res, next) => {
+    const { email, password } = req.body;
 
+    console.log('Register attempt:', email);
+
+    if (!email || !password) {
+        return res.render('register', {
+            title: 'Register Page',
+            errorMessage: 'Email and Password are required.',
+        });
+    }
+
+    try {
+        // Check if the user already exists
         const userExists = await User.findOne({ email });
         if (userExists) {
             return res.render('register', {
-                title: 'Register Here',
-                errorMessage: 'User already exists. Please try again.'
-            })
+                title: 'Register Page',
+                errorMessage: 'User already exists. Please try again.',
+            });
         }
-        const user = new User({ email, password });
-        await user.save(); 
-        console.log('User Registered Successfully:', email);
-        res.redirect('/login')
-        }
-    catch(err) {
-        console.error(err);
+
+        // Create and save the new user
+        const newUser = new User({
+            email,
+            password, // `userSchema.pre('save')` will hash the password
+        });
+
+        await newUser.save(); // This should now work without issues
+
+        console.log('User registered successfully:', email);
+        res.redirect('/login');
+    } catch (err) {
+        console.error('Error saving new user:', err.message);
         res.render('register', {
-            title: 'Register Here',
-            errorMessage: 'Registration Failed. Please try again.',
-    });
-}});
+            title: 'Register Page',
+            errorMessage: 'Registration failed. Please try again.',
+        });
+    }
+});
+
 
 
 //Get route for getting the logout page

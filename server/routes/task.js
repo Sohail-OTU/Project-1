@@ -16,13 +16,13 @@ Put --> Edit/Update
 //Buttons for active/completed lists
 router.get('/', authenticateToken, (req, res, next) => {
     try {
-    res.render('../views/task_choice', {
+    res.render('task_choice', {
         title: 'Task'
     })}
     catch(err)
     {
         console.error(err);
-        res.render('../views/task_choice',{
+        res.render('task_choice',{
             error:'Error on the server'
         })
     }
@@ -32,7 +32,7 @@ router.get('/', authenticateToken, (req, res, next) => {
 /* Read Operation --> Get route for displaying the active task list */
 router.get('/active', authenticateToken, async(req,res,next)=>{
 try{
-    const TaskList = await Task.find({Status: 'Active'});
+    const TaskList = await Task.find({Status: 'Active', createdBy: req.user.id});
     res.render('Active_Task/list',{
         title:'Active Tasks',
         TaskList:TaskList,

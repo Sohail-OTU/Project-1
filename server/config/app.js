@@ -69,10 +69,9 @@ app.use((req, res, next) => {
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/tasks',taskRouter);
-//Put the app.use for authentication here:
 app.use('/', authRouter);
 app.use('/tasks', checkAuthentication);
+app.use('/tasks',taskRouter);//Put the app.use for authentication here:
 console.log('Auth routes mounted at root');
 
 // catch 404 and forward to error handler

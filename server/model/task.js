@@ -17,4 +17,4 @@ let taskModel = mongoose.Schema({
 {
     collection:"home_log"
 });
-module.exports =mongoose.model('Task',taskModel);
+module.exports = mongoose.model('Task',taskModel);
