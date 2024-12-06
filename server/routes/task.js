@@ -31,14 +31,23 @@ router.get('/', authenticateToken, (req, res, next) => {
 
 /* Read Operation --> Get route for displaying the active task list */
 router.get('/active', authenticateToken, async(req,res,next)=>{
+    const items_per_page = 10;
+    const page = parseInt(req.query.page) || 1;
+
 try{
-    const TaskList = await Task.find({Status: 'Active', createdBy: req.user.id});
+    const totalTasks = await Task.countDocuments({ Status: 'Active', createdBy: req.user.id });
+    const TaskList = await Task.find({Status: 'Active', createdBy: req.user.id})
+        .skip((page-1) * items_per_page)
+        .limit(items_per_page);
+
     res.render('Active_Task/list',{
         title:'Active Tasks',
         TaskList:TaskList,
         user: req.user,
-    })}
-    catch(err){
+        currentPage: page,
+        pageCount: Math.ceil(totalTasks / items_per_page)
+    });
+    } catch(err){
         console.error(err);
         res.render('Active_Task/list',{
             error:'Error on the server',
@@ -183,12 +192,18 @@ router.get('/active/delete/:id', authenticateToken, async(req,res,next)=>{
 
 // list the task 
 router.get('/completed', authenticateToken, async(req,res,next)=>{
+    const items_per_page = 10;
+    const page = parseInt(req.query.page) || 1;
+
     try{
+        const totalTasks = await Task.countDocuments({ Status: 'Completed', createdBy: req.user.id });
         const TaskList = await Task.find({Status: 'Completed', createdBy: req.user.id});
         res.render('Completed_Task/list',{
             title:'Completed Tasks',
             TaskList:TaskList,
-            user: req.user
+            user: req.user,
+            currentPage: page,
+            pageCount: Math.ceil(totalTasks / items_per_page)
         })}
     catch(err){
         console.error(err);

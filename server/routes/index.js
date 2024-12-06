@@ -1,5 +1,7 @@
 var express = require('express');
 var router = express.Router();
+let mongoose = require('mongoose');
+let Contact = require('../model/contact');
 
 /* GET index page. */
 router.get('/', function(req, res, next) {
@@ -11,19 +13,19 @@ router.get('/home', function(req, res, next) {
 });
 /* GET About page. */
 router.get('/aboutus', function(req, res, next) {
-  res.render('index', { title: 'About us' });
-});
-/* GET products page. */
-router.get('/products', function(req, res, next) {
-  res.render('index', { title: 'Products' });
+  res.render('index', { title: 'About Us' });
 });
 /* GET service page. */
 router.get('/service', function(req, res, next) {
   res.render('index', { title: 'Service' });
 });
-/* GET contactus page. */
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/* GET Contact Us Page */
 router.get('/contactus', function(req, res, next) {
   res.render('index', { title: 'Contact Us' });
 });
+  
 
 module.exports = router;

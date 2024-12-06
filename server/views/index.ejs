@@ -1,6 +1,18 @@
 <%- include Partials/header.ejs%>
 <%- include Partials/main_nav.ejs%>
-    <!--Main content-->
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
+
+<% if (title == "Sortify") { %>
+    <%- include Partials/sortify.ejs %>
+<% } else if (title == "About Us") { %>
+    <%- include Partials/aboutus.ejs %>
+<% } else if (title == "Service") { %>
+    <%- include Partials/services.ejs %>
+<% } if (title == "Task") { %>
+    <%- include task_choice.ejs %>
+<% } else if (title == "Contact Us") { %>
+    <%- include Partials/contactus.ejs %>
+<% } else { %>
+    <!--More content for pages-->
+<% } %>
+
 <%- include Partials/footer.ejs%>

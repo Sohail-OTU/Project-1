@@ -20,19 +20,85 @@
     color: #C4D8E2 !important;  /* Columbia blue */
 }
 
+/*Logo customization*/
 .logo_ {
     width: 3vw;
     height: 3vw;
     object-fit: cover;
 }
 
+/*Body and main stuff customizations */
 body {
     overflow-x: hidden;
+    font-family: 'Lato', sans-serif;
+    background-color: #f5ead3;
+    color: #333;
+    padding-bottom: 6%;
+}
+
+body::-webkit-scrollbar {
+    width: 12px;
+    background-color: #FFF8E7; /* Track background (soft beige) */
+}
+
+body::-webkit-scrollbar-thumb {
+    background-color: #4d7239; /* Thumb color (light green) */
+    border-radius: 10px;
+    border: 1px solid #FFF8E7; /* Optional: border */
+}
+
+body::-webkit-scrollbar-track {
+    background-color: #D4C798; /* Track color (muted olive) */
+    border-radius: 10px;
+}
+
+.body_margins {
+    margin-top: 2%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair-Display', serif;
+}
+
+.accent {
+    font-family: 'Poppins', sans-serif;
 }
 
 ::placeholder {
     font-style: italic;
 }
+
+.box_coloured_background {
+    background-color: #fbd0bc;
+    padding: 2%;
+    border-radius: 10px;
+}
+
+.bordered_box {
+    border: 2px solid #4d7239;
+    border-radius: 5px;
+}
+
+.aligned_text {
+    text-align: center;
+    margin-top: 1%;
+}
+
+.card_img_size {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+/*Contact form customizations*/
+
+.contact_form {
+    background-color: #E5A88B;
+    padding: 2%;
+    border-radius: 10px;
+}
+
+
 
 /* TASK CHOICE BUTTON CSSS!!!!!!!!!! */
 

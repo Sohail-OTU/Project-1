@@ -36,7 +36,7 @@ async function main() {
 
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../../public')));
 app.use(express.static(path.join(__dirname, '../../node_modules')));
@@ -71,7 +71,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/', authRouter);
 app.use('/tasks', checkAuthentication);
-app.use('/tasks',taskRouter);//Put the app.use for authentication here:
+app.use('/tasks',taskRouter);
 console.log('Auth routes mounted at root');
 
 // catch 404 and forward to error handler
