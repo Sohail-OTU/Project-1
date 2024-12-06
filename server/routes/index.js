@@ -26,6 +26,52 @@ router.get('/service', function(req, res, next) {
 router.get('/contactus', function(req, res, next) {
   res.render('index', { title: 'Contact Us' });
 });
-  
+
+/* POST Contact Form*/
+router.post('/contactus', async function(req, res, next) {
+  const { name, email, message } = req.body;
+
+
+  console.log('POST /contactus route hit');
+
+
+  try {
+    console.log('Form data received:', { name, email, message });
+
+
+    let newContact = new Contact({
+      "name": name,
+      "email": email,
+      "message": message,
+    });
+
+
+    console.log('Saving new contact to database...');
+    await newContact.save();
+
+
+    console.log("Contact Form Submission:", {name, email, message});
+
+
+    res.render('index', {
+      title: 'Contact Us',
+      successMessage: 'Your message has been sent!',
+    });
+
+
+  } catch(err) {
+    console.error('Error saving contact form')
+    console.error(err);
+
+
+    res.render('index', {
+      title: 'Contact Us',
+      errorMessage: 'Failed to send your message. Please try again.'
+    });
+
+
+  }
+});
+
 
 module.exports = router;
