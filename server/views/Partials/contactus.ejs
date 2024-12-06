@@ -6,7 +6,7 @@
             <form method="POST" action="/contactus" class="needs-validation" novalidate>
             <!--The above keyword "needs-validation" is for bootstraps validation features
             and the "novalidate" means that you stop the browser from automatically validating-->
-            
+
             <div class="row mb-3">
                 <div class="col-md-6">
                     <label for="name" class="form-label">Your Name</label>
@@ -20,4 +20,19 @@
                     <div class="invalid-feedback">Please enter a valid email address.</div>
                 </div>
             </div>
+            <div class="mb-3">
+                <label for="message" class="form-label">Your Message</label>
+                <textarea class="form-control" id="message" name="message" rows="4" placeholder="Enter your message here..."
+                    required></textarea>
+                <div class="invalid-feedback">Please enter a message.</div>
+            </div>
+            <button type="submit" class="btn btn-success w-100">Send Message</button>
+            <p class="text-center mb-3"><br>We appreciate you taking the time to reach out.
+                <br>Please allow 3-5 business days for us to get back to you. <br><b>Thank You!</b>
+            </p>
+        </form>
+    </div>
+</div>
+</div>
+
 
