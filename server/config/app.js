@@ -90,4 +90,9 @@ app.use(function(err, req, res, next) {
   res.render('error',{title:'Error'});
 });
 
+app.get('/', (req, res) => {
+  res.send('Backend is running. Use API endpoints for functionality.');
+});
+
 module.exports = app;
+
